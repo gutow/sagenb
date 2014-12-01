@@ -68,23 +68,23 @@ def save_notebook(notebook):
         kw['hostname'] = kw['interface'] if kw['interface'] else 'localhost'
 
         if kw['automatic_login']:
-            kw['start_path'] = "'/?startup_token=%s' % startup_token"
+            kw['start_path'] = "'/sage/?startup_token=%s' % startup_token"
             kw['open_page'] = "from sagenb.misc.misc import open_page; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
             if kw['upload']:
                 import urllib
                 # If we have to login and upload a file, then we do them
                 # in that order and hope that the login is fast enough.
-                kw['start_path'] = "'/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
+                kw['start_path'] = "'/sage/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
                 kw['open_page'] = kw['open_page']+ "; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
         elif kw['upload']:
             import urllib
-            kw['start_path'] = "'/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
+            kw['start_path'] = "'/sage/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
             kw['open_page'] = "from sagenb.misc.misc import open_page; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
         else:
-            kw['open_page'] = ''
+            kw['open_page'] = '/sage/'
 
 
     def profile_file(self, profile):
@@ -254,9 +254,11 @@ def my_sigint(x, n):
 
 signal.signal(signal.SIGINT, my_sigint)
 
-from twisted.web import server
+from twisted.web import static, server, vhost
 from twisted.web.wsgi import WSGIResource
-resource = WSGIResource(reactor, reactor.getThreadPool(), flask_app)
+virtualhostbase=vhost.VHostMonsterResource()
+virtualhostbase.putChild('sage',WSGIResource(reactor, reactor.getThreadPool(), flask_app))
+root=virtualhostbase
 
 class QuietSite(server.Site):
     def log(*args, **kwargs):
@@ -264,10 +266,10 @@ class QuietSite(server.Site):
         pass
 
 # Log only errors, not every page hit
-site = QuietSite(resource)
+site = QuietSite(root)
 
 # To log every single page hit, uncomment the following line
-#site = server.Site(resource)
+#site = server.Site(root)
 
 from twisted.application import service, strports
 application = service.Application("Sage Notebook")
@@ -302,9 +304,9 @@ reactor.addSystemEventTrigger('before', 'shutdown', partial(save_notebook2, flas
                         old_interface = old_interface or 'localhost'
                         if kw['upload']:
                             import urllib
-                            startpath = '/upload_worksheet?url=file://%s' % (urllib.quote(kw['upload']))
+                            startpath = '/sage/upload_worksheet?url=file://%s' % (urllib.quote(kw['upload']))
                         else:
-                            startpath = '/'
+                            startpath = '/sage/'
 
                         print 'Opening web browser at http%s://%s:%s%s ...' % (
                             's' if old_secure else '', old_interface, old_port, startpath)
@@ -456,7 +458,7 @@ def notebook_run(self,
              upload        = None,
              automatic_login = True,
 
-             start_path    = "",
+             start_path    = "/sage/",
              fork          = False,
              quiet         = False,
 

@@ -34,7 +34,7 @@
     <li><tt>.rst</tt> - {{ gettext('a ReStructuredText file (Add "<tt>.. escape-backslashes</tt>" as a line in the file if you want backslashes to be escaped. Put latex code inside backticks "<tt>`</tt>" or dollar signs "<tt>$</tt>" or "<tt>$$</tt>". Math role is not supported for now.)') }}</li>
     <li><tt>.zip</tt> - {{ gettext('a zip archive of any of the above') }}</li>
     </ul>
-    <form method="POST" action="upload_worksheet"
+    <form method="POST" action="/sage/upload_worksheet"
           name="upload" enctype="multipart/form-data">
         <div>
             <label for="file">{{ gettext('Browse your computer to select a file to upload:') }}</label>

@@ -1,12 +1,12 @@
 {% extends "html/base.html" %}
 
 {% block javascript %}
-<link rel="stylesheet" href="/javascript/openid-realselector/css/style.css" />
-<script type="text/javascript" src="/javascript/openid-realselector/js/jquery.openid.js"></script>
+<link rel="stylesheet" href="/sage/javascript/openid-realselector/css/style.css" />
+<script type="text/javascript" src="/sage/javascript/openid-realselector/js/jquery.openid.js"></script>
 <script type="text/javascript">
     $(function() {
       $('#openid').openid({
-        img_path: '/javascript/openid-realselector/img/openid/',
+        img_path: '/sage/javascript/openid-realselector/img/openid/',
         txt: {
           label: '{username} for <b>{provider}</b>',
           username: '{{ gettext('username') }}',
@@ -61,7 +61,7 @@
 
 <div id="sign-in-box">
     <h2>{{ gettext('Sign into the Sage Notebook v%(v)s', v=sage_version) }}</h2>
-    <form method="POST" action="/login" id="sign-in-form">
+    <form method="POST" action="/sage/login" id="sign-in-form">
         <div>
             <label for="email">{{ gettext('Username') }}</label>
             <input type="text" name="email" size="15" />
@@ -83,19 +83,19 @@
     </form>
     {% if accounts %}
     <div>
-        <a href="/register" id="register-link"><strong>{{ gettext('Sign up for a new Sage Notebook account') }}</strong></a>
+        <a href="/sage/register" id="register-link"><strong>{{ gettext('Sign up for a new Sage Notebook account') }}</strong></a>
     </div>
     {% endif %}
     <div>
-        <a href="/pub"><strong>{{ gettext('Browse published Sage worksheets<br>(no login required)') }}</strong></a>
+        <a href="/sage/pub"><strong>{{ gettext('Browse published Sage worksheets<br>(no login required)') }}</strong></a>
     </div>
     {% if recovery %}
     <div>
-        <a href="/forgotpass"><strong>{{ gettext('Forgot password') }}</strong></a>
+        <a href="/sage/forgotpass"><strong>{{ gettext('Forgot password') }}</strong></a>
     </div>
     {% endif %}
     {% if openid %}
-    <form method="post" action="/loginoid" id="openid"></form>
+    <form method="post" action="/sage/loginoid" id="openid"></form>
     <div style="display: block; text-align: justify; color: #333;
                border: 1px solid #333; border-radius: 3px;">
         <strong>Note: </strong>
