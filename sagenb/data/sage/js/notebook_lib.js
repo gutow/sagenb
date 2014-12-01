@@ -1721,7 +1721,7 @@ function close_callback(status, response) {
         alert(response);
         return;
     }
-    window.location.replace('/home/' + user_name);
+    window.location.replace('/sage/home/' + user_name);
 }
 
 
@@ -1841,7 +1841,7 @@ function handle_data_menu(form) {
     if (value === "__upload_data_file__") {
         window.location.replace(worksheet_command("upload_data"));
     } else if (value !== '') {
-        window.location.replace("/home/" + worksheet_filename + "/" +
+        window.location.replace("" + worksheet_filename + "/" +
                                 value);
     }
     form.options[0].selected = 1;
@@ -1925,7 +1925,7 @@ function list_rename_worksheet(filename, curname) {
         curname -- string; the current name of this worksheet
     */
     var callback = function (new_name) {
-        async_request('/home/' + filename + '/' + 'rename', refresh, {
+        async_request('/sage/home/' + filename + '/' + 'rename', refresh, {
             name: new_name
         });
     };
@@ -1949,7 +1949,7 @@ function list_edit_worksheet(filename) {
     INPUT:
         filename -- string
     */
-    window.location.replace('/home/' + filename);
+    window.location.replace('/sage/home/' + filename);
 }
 
 
@@ -1963,7 +1963,7 @@ function list_copy_worksheet(filename) {
     INPUT:
         filename -- string; filename of the worksheet to share
     */
-    async_request('/home/' + filename + '/copy?no_load', refresh);
+    async_request('/sage/home/' + filename + '/copy?no_load', refresh);
 }
 
 
@@ -1975,7 +1975,7 @@ function list_share_worksheet(filename) {
     INPUT:
         filename -- string; filename of the worksheet to share
     */
-    window.location.replace('/home/' + filename + '/share');
+    window.location.replace('/sage/home/' + filename + '/share');
 }
 
 
@@ -1987,7 +1987,7 @@ function list_publish_worksheet(filename) {
     INPUT:
         filename -- string; filename of the worksheet to share
     */
-    window.open('/home/' + filename + '/publish', "",
+    window.open('/sage/home/' + filename + '/publish', "",
                 "menubar=1,scrollbars=1,width=800,height=600,toolbar=1,  resizable=1");
 }
 
@@ -2000,7 +2000,7 @@ function list_revisions_of_worksheet(filename) {
     INPUT:
         filename -- string; filename of the worksheet to share
     */
-    window.location.replace('/home/' + filename + '/revisions');
+    window.location.replace('/sage/home/' + filename + '/revisions');
 }
 
 
@@ -3033,7 +3033,7 @@ function worksheet_command(cmd) {
     }
     // worksheet_filename differs from actual url for public interacts
     // users see /home/pub but worksheet_filename is /home/_sage_
-    return ('/home/' + worksheet_filename + '/' + cmd);
+    return ('/sage/home/' + worksheet_filename + '/' + cmd);
 }
 
 

@@ -20,7 +20,7 @@ from sagenb.misc.misc import SAGENB_ROOT, DATA, SAGE_DOC, translations_path, N_,
 oid = OpenID()
 
 class SageNBFlask(Flask):
-    static_path = ''
+    static_path = '/sage/'
 
     def __init__(self, *args, **kwds):
         self.startup_token = kwds.pop('startup_token', None)

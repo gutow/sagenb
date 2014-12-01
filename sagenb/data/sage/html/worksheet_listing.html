@@ -25,17 +25,17 @@ INPUT:
 
 {% block javascript %}
 {% if not pub %}
-<link rel="stylesheet" href="/javascript/jqueryui/css/sage/jquery-ui-1.10.4.custom.css" />
-<script type="text/javascript" src="/javascript/jqueryui/js/jquery-ui-1.10.4.custom.min.js"></script>
-<script type="text/javascript" src="/javascript/jquery/plugins/form/jquery.form.min.js"></script>
-<script type="text/javascript" src="/javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
+<link rel="stylesheet" href="/sage/javascript/jqueryui/css/sage/jquery-ui-1.10.4.custom.css" />
+<script type="text/javascript" src="/sage/javascript/jqueryui/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="/sage/javascript/jquery/plugins/form/jquery.form.min.js"></script>
+<script type="text/javascript" src="/sage/javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
 <script type="text/javascript">
     var worksheet_filenames = {{ worksheet_filenames|tojson|safe }}; 
 </script>
-<script type="text/javascript" src="/javascript/sage/js/notebook_lib.js"></script>
-<script type="text/javascript" src="/javascript/dynamic/notebook_dynamic.js"></script>
+<script type="text/javascript" src="/sage/javascript/sage/js/notebook_lib.js"></script>
+<script type="text/javascript" src="/sage/javascript/dynamic/notebook_dynamic.js"></script>
 {% else %}
-<script type="text/javascript" src="/javascript/sage/js/ws_list.js"></script>
+<script type="text/javascript" src="/sage/javascript/sage/js/ws_list.js"></script>
 {% endif %}
 {% endblock %}
 
@@ -46,9 +46,9 @@ INPUT:
 {% endif %}
 <div id="user-main-controls" class="user-controls">
     {% if pub is not defined or not pub %}
-    <a href="/new_worksheet" target="_blank">{{ gettext('New Worksheet') }}</a>
-    <a href="/upload">{{ gettext('Upload') }}</a>
-    <a href="/download_worksheets.zip">{{ gettext('Download All Active') }}</a>
+    <a href="/sage/new_worksheet" target="_blank">{{ gettext('New Worksheet') }}</a>
+    <a href="/sage/upload">{{ gettext('Upload') }}</a>
+    <a href="/sage/download_worksheets.zip">{{ gettext('Download All Active') }}</a>
     {% endif %}
 
     <div id="search-area">
@@ -133,7 +133,7 @@ INPUT:
         {% elif typ == 'active' %}
         <tr>
             <td colspan="5" id="welcome-message">
-                {{ gettext('Welcome to Sage! You can <a href="/new_worksheet">create a new worksheet</a>, view <a href="/pub/">published worksheets</a>, or read the <a href="/help" target="_new">documentation</a>.') }}
+                {{ gettext('Welcome to Sage! You can <a href="/sage/new_worksheet">create a new worksheet</a>, view <a href="/pub/">published worksheets</a>, or read the <a href="/help" target="_new">documentation</a>.') }}
             </td>
         </tr>
         {% endif %}
@@ -145,7 +145,7 @@ INPUT:
             <td class="entry">
                 {% if pub %}
                 
-                <a class="worksheet_edit" href="/home/{{ name }}/rating_info">
+                <a class="worksheet_edit" href="/sage/home/{{ name }}/rating_info">
                     {% if worksheet.rating() < 0 %}
                     ----
                     {% else %}
@@ -174,7 +174,7 @@ INPUT:
             </td>
 
             <td class="worksheet_link">
-                <a title="{{ worksheet.name() | escape }}" id="name-{{ name|css_escape }}" class="worksheetname" href="/home/{{ name }}/">
+                <a title="{{ worksheet.name() | escape }}" id="name-{{ name|css_escape }}" class="worksheetname" href="/sage/home/{{ name }}/">
                     {% if worksheet.compute_process_has_been_started() %}({{ gettext('running') }}){% endif %}
                     {{ worksheet.truncated_name(50) | escape}}
                 </a>
@@ -208,13 +208,13 @@ INPUT:
                 {% endif %}
                 
                 {% if shared %}
-                <a class="share" href="/home/{{ worksheet.filename() }}/share">{{ gettext('Add or Delete') }}</a>
+                <a class="share" href="/sage/home/{{ worksheet.filename() }}/share">{{ gettext('Add or Delete') }}</a>
                 {% else %}
-                <a class="share" href="/home/{{ worksheet.filename() }}/share">{{ gettext('Share now') }}</a>
+                <a class="share" href="/sage/home/{{ worksheet.filename() }}/share">{{ gettext('Share now') }}</a>
                 {% endif %}
 
                 {% if worksheet.has_published_version() %}
-                <a href="/home/{{ worksheet.published_version().filename() }}">
+                <a href="/sage/home/{{ worksheet.published_version().filename() }}">
                     ({{ gettext('published') }})
                 </a>
                 {% endif %}
