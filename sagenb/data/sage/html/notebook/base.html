@@ -15,46 +15,46 @@ INPUT:
 {% block javascript %}
 
 <!-- trying to work around JSmol collisions with jquery--->
-<script type="text/javascript" src="/sage/javascript/jquery/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/jquery-1.11.0.min.js"></script>
 <!-- jQuery UI - interacts, widgets, drag-drop, etc. -->
-<link rel="stylesheet" href="/sage/javascript/jqueryui/css/sage/jquery-ui-1.10.4.custom.css" />
-<script type="text/javascript" src="/sage/javascript/jqueryui/js/jquery-ui-1.10.4.custom.min.js"></script>
+<link rel="stylesheet" href="{{request.url_root}}javascript/jqueryui/css/sage/jquery-ui-1.10.4.custom.css" />
+<script type="text/javascript" src="{{request.url_root}}javascript/jqueryui/js/jquery-ui-1.10.4.custom.min.js"></script>
 
 <!-- jQuery plugins - color pickers, shift-click, AJAX forms, IE fixes, notifications -->
-<link rel="stylesheet" href="/sage/javascript/jquery/plugins/farbtastic/farbtastic.css" type="text/css" />
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/farbtastic/farbtastic.min.js"></script>
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/extendedclick/jquery.event.extendedclick.min.js"></script>
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/form/jquery.form.min.js"></script>
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
-<link rel="stylesheet" href="/sage/javascript/jquery/plugins/jpicker/css/jPicker-1.1.6.min.css" type="text/css" />
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/jpicker/jpicker-1.1.6.min.js"></script>
-<link rel="stylesheet" media="screen" type="text/css" href="/sage/javascript/jquery/plugins/colorpicker/css/colorpicker.css" />
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/colorpicker/js/colorpicker.min.js"></script>
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/achtung/ui.achtung-mod.min.js"></script>
+<link rel="stylesheet" href="{{request.url_root}}javascript/jquery/plugins/farbtastic/farbtastic.css" type="text/css" />
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/farbtastic/farbtastic.min.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/extendedclick/jquery.event.extendedclick.min.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/form/jquery.form.min.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
+<link rel="stylesheet" href="{{request.url_root}}javascript/jquery/plugins/jpicker/css/jPicker-1.1.6.min.css" type="text/css" />
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/jpicker/jpicker-1.1.6.min.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="{{request.url_root}}javascript/jquery/plugins/colorpicker/css/colorpicker.css" />
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/colorpicker/js/colorpicker.min.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/achtung/ui.achtung-mod.min.js"></script>
 
 <!-- Jmol - embedded 3D graphics **needs to be before jmol_lib.js** -->
-<script type="text/javascript" src="/sage/jsmol/JSmol.min.nojq.js"></script>
+<script type="text/javascript" src="{{request.url_root}}jsmol/JSmol.min.nojq.js"></script>
 
 {% if not worksheet.is_published() or worksheet.notebook().conf()['pub_interact'] %}
-<script type="text/javascript" src="/sage/javascript/sage/js/notebook_lib.js"></script>
-<script type="text/javascript" src="/sage/javascript/dynamic/notebook_dynamic.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/sage/js/notebook_lib.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/dynamic/notebook_dynamic.js"></script>
 {% elif worksheet.is_published() %}
-<script type="text/javascript" src="/sage/javascript/sage/js/jmol_lib.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/sage/js/jmol_lib.js"></script>
 {% endif %}
 
 {% if MATHJAX %}
-<script type="text/javascript" src="/sage/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full,../../dynamic/mathjax_sage.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full,../../dynamic/mathjax_sage.js"></script>
 {% endif %}
 
 <!-- Sage3d - accelerated 3D graphics -->
-<script type="text/javascript" src="/sage/javascript/sage3d/sage3d.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/sage3d/sage3d.js"></script>
 
 {% if JEDITABLE_TINYMCE and not worksheet.docbrowser() and not worksheet.is_published() %}
 <!-- TinyMCE and jEditable - in-place editing of text cells -->
-<script type="text/javascript" src="/sage/javascript/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript" src="/sage/javascript/jquery/plugins/jeditable/jquery.jeditable.mini.js" charset="utf-8"></script>
-<script type="text/javascript" src="/sage/javascript/sage/js/tinymce.js"></script>
-<script type="text/javascript" src="/sage/javascript/tiny_mce/plugins/media/js/embed.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/jeditable/jquery.jeditable.mini.js" charset="utf-8"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/sage/js/tinymce.js"></script>
+<script type="text/javascript" src="{{request.url_root}}javascript/tiny_mce/plugins/media/js/embed.js"></script>
 {% endif %}
 
 <script type="text/javascript">user_name= "{{ username }}";</script>

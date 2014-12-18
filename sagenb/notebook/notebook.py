@@ -1682,7 +1682,7 @@ class Notebook(object):
                         worksheet = ws, username = username)
 
     def html(self, worksheet_filename=None, username='guest', admin=False, 
-             do_print=False):
+             do_print=False, **kwds):
         r"""
         Return the HTML for a worksheet's index page.
 
@@ -1692,7 +1692,8 @@ class Notebook(object):
 
         - ``username`` - a string (default: 'guest')
 
-        - ``admin`` - a bool (default: False)
+        - ``admin`` - a bool (default: False) 
+        - ``kwds``  - additional things to pass to the template
 
         OUTPUT:
 
@@ -1731,7 +1732,7 @@ class Notebook(object):
 
         return template(template_page, worksheet = W,
                         notebook = self, do_print=do_print,
-                        username = username)
+                        username = username, **kwds)
 
     def upgrade_model(self):
         """

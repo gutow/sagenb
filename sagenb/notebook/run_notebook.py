@@ -51,6 +51,7 @@ opts={}
 startup_token = '{0:x}'.format(random.randint(0, 2**128))
 if %(automatic_login)s:
     opts['startup_token'] = startup_token
+opts['site_name']='%(site_name)s'    
 flask_app = flask_base.create_app(%(notebook_opts)s, **opts)
 
 def save_notebook(notebook):
@@ -66,25 +67,27 @@ def save_notebook(notebook):
         kw['absdirectory']=os.path.abspath(kw['directory'])
         kw['notebook_opts'] = '"%(absdirectory)s",interface="%(interface)s",port=%(port)s,secure=%(secure)s'%kw
         kw['hostname'] = kw['interface'] if kw['interface'] else 'localhost'
+        if not kw['site_name']:
+            kw['site_name']='sage'
 
         if kw['automatic_login']:
-            kw['start_path'] = "'/sage/?startup_token=%s' % startup_token"
+            kw['start_path'] = "'/"+kw['site_name']+"/?startup_token=%s' % startup_token"
             kw['open_page'] = "from sagenb.misc.misc import open_page; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
             if kw['upload']:
                 import urllib
                 # If we have to login and upload a file, then we do them
                 # in that order and hope that the login is fast enough.
-                kw['start_path'] = "'/sage/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
+                kw['start_path'] = "'/"+kw['site_name']+"/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
                 kw['open_page'] = kw['open_page']+ "; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
         elif kw['upload']:
             import urllib
-            kw['start_path'] = "'/sage/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
+            kw['start_path'] = "'/"+kw['site_name']+"/upload_worksheet?url=file://%s'" % (urllib.quote(kw['upload']))
             kw['open_page'] = "from sagenb.misc.misc import open_page; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
         else:
-            kw['open_page'] = '/sage/'
+            kw['open_page'] = '/'
 
 
     def profile_file(self, profile):
@@ -256,9 +259,10 @@ signal.signal(signal.SIGINT, my_sigint)
 
 from twisted.web import static, server, vhost
 from twisted.web.wsgi import WSGIResource
-virtualhostbase=vhost.VHostMonsterResource()
-virtualhostbase.putChild('sage',WSGIResource(reactor, reactor.getThreadPool(), flask_app))
-root=virtualhostbase
+root = static.File("")
+vhostprocessor=vhost.VHostMonsterResource()
+root.putChild('virtualhostbase',vhostprocessor)
+root.putChild('%(site_name)s',WSGIResource(reactor, reactor.getThreadPool(), flask_app))
 
 class QuietSite(server.Site):
     def log(*args, **kwargs):
@@ -266,10 +270,10 @@ class QuietSite(server.Site):
         pass
 
 # Log only errors, not every page hit
-site = QuietSite(root)
+#site = QuietSite(root)
 
 # To log every single page hit, uncomment the following line
-#site = server.Site(root)
+site = server.Site(root)
 
 from twisted.application import service, strports
 application = service.Application("Sage Notebook")
@@ -304,9 +308,9 @@ reactor.addSystemEventTrigger('before', 'shutdown', partial(save_notebook2, flas
                         old_interface = old_interface or 'localhost'
                         if kw['upload']:
                             import urllib
-                            startpath = '/sage/upload_worksheet?url=file://%s' % (urllib.quote(kw['upload']))
+                            startpath = '/upload_worksheet?url=file://%s' % (urllib.quote(kw['upload']))
                         else:
-                            startpath = '/sage/'
+                            startpath = '/'
 
                         print 'Opening web browser at http%s://%s:%s%s ...' % (
                             's' if old_secure else '', old_interface, old_port, startpath)
@@ -458,12 +462,13 @@ def notebook_run(self,
              upload        = None,
              automatic_login = True,
 
-             start_path    = "/sage/",
+             start_path    = "/",
              fork          = False,
              quiet         = False,
 
              server = "twistd",
              profile = False,
+             site_name="sage",
 
              subnets = None,
              require_login = None,
@@ -620,7 +625,7 @@ def notebook_run(self,
             print "Failed to setup notebook.  Please try notebook.setup() again manually."
 
     kw = dict(port=port, automatic_login=automatic_login, secure=secure, private_pem=private_pem, public_pem=public_pem,
-              interface=interface, directory=directory, pidfile=pidfile, cwd=cwd, profile=profile, upload = upload )
+              interface=interface, directory=directory, pidfile=pidfile, cwd=cwd, profile=profile, upload = upload, site_name=site_name )
     cmd = command[server]().run_command(kw)
     if cmd is None:
         return
