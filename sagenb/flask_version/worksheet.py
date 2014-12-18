@@ -36,7 +36,7 @@ def worksheet_view(f):
                 if not worksheet.is_published():
                     if (not g.username in worksheet.collaborators() and
                         not g.notebook.user_manager().user_is_admin(g.username)):
-                        return current_app.message(_("You do not have permission to access this worksheet"))
+                        return current_app.message(_(g.username+". You do not have permission to access this worksheet"))
 
             if not worksheet.is_published():
                 worksheet.set_active(g.username)
@@ -92,7 +92,7 @@ def worksheet(username, id, worksheet=None):
     assert worksheet is not None
     worksheet.sage()
     s = g.notebook.html(worksheet_filename=worksheet.filename(),
-                        username=g.username)
+                        username=g.username, request=request)
     return s
 
 published_commands_allowed = set(['alive', 'cells', 'cell_update',

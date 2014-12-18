@@ -20,7 +20,7 @@ from sagenb.misc.misc import SAGENB_ROOT, DATA, SAGE_DOC, translations_path, N_,
 oid = OpenID()
 
 class SageNBFlask(Flask):
-    static_path = '/sage/'
+    static_path = ''
 
     def __init__(self, *args, **kwds):
         self.startup_token = kwds.pop('startup_token', None)
@@ -55,6 +55,9 @@ class SageNBFlask(Flask):
         self.add_static_path('/doc/static', DOC)
         #self.add_static_path('/doc/static/reference', os.path.join(SAGE_DOC, 'reference'))
 
+    def site_name(self):
+    	return (kwds['site_name'])
+    	
     def create_jinja_environment(self):
         from sagenb.notebook.template import env
         env.globals.update(url_for=url_for)
@@ -69,9 +72,9 @@ class SageNBFlask(Flask):
                           endpoint='/static'+base_url,
                           view_func=partial(self.static_view_func, root_path))
 
-    def message(self, msg, cont='/', username=None, **kwds):
+    def message(self, msg, cont='', username=None, **kwds):
         """Returns an error message to the user."""
-        template_dict = {'msg': msg, 'cont': cont, 'username': username}
+        template_dict = {'msg': msg, 'cont': request.url_root+cont, 'username': username}
         template_dict.update(kwds)
         return render_template(os.path.join('html', 'error_message.html'),
                                **template_dict)
@@ -81,7 +84,7 @@ base = Module('sagenb.flask_version.base')
 #############
 # Main Page #
 #############
-@base.route('/')
+@base.route("/")
 def index():
     if 'username' in session:
         # If there is a next request use that.  See issue #76
@@ -398,6 +401,7 @@ def create_app(path_to_notebook, *args, **kwds):
     """
     global notebook
     startup_token = kwds.pop('startup_token', None)
+    site_name=kwds.pop('site_name',None)
 
     #############
     # OLD STUFF #

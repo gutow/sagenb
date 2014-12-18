@@ -2227,12 +2227,12 @@ class Cell(Cell_generic):
             sage: W = nb.create_new_worksheet('Test', 'sage')
             sage: C = sagenb.notebook.cell.Cell(0, '2+3', '5', W)
             sage: C.url_to_self()
-            '/sage/home/sage/0/cells/0'
+            '/home/sage/0/cells/0'
         """
         try:
             return self._url_to_self
         except AttributeError:
-            self._url_to_self = '/sage/home/%s/cells/%s' % (
+            self._url_to_self = '/home/%s/cells/%s' % (
                 self.worksheet_filename(), self.id())
             return self._url_to_self
 
@@ -2251,9 +2251,9 @@ class Cell(Cell_generic):
             sage: W = nb.create_new_worksheet('Test', 'sage')
             sage: C = sagenb.notebook.cell.Cell(0, '2+3', '5', W)
             sage: C.url_to_worksheet()
-            '/sage/home/sage/0'
+            '/home/sage/0'
         """
-        return '/sage/home/{0}'.format(self.worksheet_filename())
+        return '/home/{0}'.format(self.worksheet_filename())
 
     def files(self):
         """

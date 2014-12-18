@@ -7,10 +7,10 @@
 {% block settings_nav %}
 <ul id="settings-nav" class="user-controls">
     {% if admin %}
-    <li><a href="/sage/users">{{ gettext('Manage Users') }}</a></li>
-    <li><a href="/sage/notebooksettings">{{ gettext('Notebook Settings') }}</a></li>
+    <li><a href="{{request.url_root}}users">{{ gettext('Manage Users') }}</a></li>
+    <li><a href="{{request.url_root}}notebooksettings">{{ gettext('Notebook Settings') }}</a></li>
     {% endif %}
-    <li><a href="/sage/settings">{{ gettext('Account Settings') }}</a></li>
+    <li><a href="{{request.url_root}}settings">{{ gettext('Account Settings') }}</a></li>
 </ul>
 {% endblock %}
 {% block settings_main %}
