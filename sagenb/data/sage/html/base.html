@@ -26,7 +26,8 @@
           class="{% block body_classes %}{% endblock %}">
         {% block body %}
         <div id="header">
-            <span id="info">{{"path: "+request.path|default('')+" url_root: "+request.url_root|default('')}}</span>
+            <span id="info" style="display:none;">{{"path: "+request.path|default('')+" url_root: "+request.url_root|default('')
+                            +" site_name: "+site_name|default('')}}</span>
             {% block header %}
             <div id="top-bar">
                 <div id="banner">

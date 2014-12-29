@@ -57,7 +57,11 @@ INPUT:
 <script type="text/javascript" src="{{request.url_root}}javascript/tiny_mce/plugins/media/js/embed.js"></script>
 {% endif %}
 
-<script type="text/javascript">user_name= "{{ username }}";</script>
+<script type="text/javascript">
+    user_name= "{{ username }}";
+    url_root="{{ request.url_root }}";
+    site_name = "{{ site_name }}";
+</script>
 {% if worksheet.filename() %}
 <script  type="text/javascript">
     worksheet_filename = "{{ worksheet.filename() }}";

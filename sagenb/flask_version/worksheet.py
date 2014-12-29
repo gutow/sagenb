@@ -92,7 +92,7 @@ def worksheet(username, id, worksheet=None):
     assert worksheet is not None
     worksheet.sage()
     s = g.notebook.html(worksheet_filename=worksheet.filename(),
-                        username=g.username, request=request)
+                        username=g.username, request=request, site_name=g.site_name)
     return s
 
 published_commands_allowed = set(['alive', 'cells', 'cell_update',
@@ -526,7 +526,7 @@ def worksheet_edit(worksheet):
     Return a window that allows the user to edit the text of the
     worksheet with the given filename.
     """
-    return g.notebook.html_edit_window(worksheet, g.username)
+    return g.notebook.html_edit_window(worksheet, g.username, request=request, site_name=g.site_name)
 
 
 ########################################################
@@ -538,7 +538,7 @@ def worksheet_text(worksheet):
     Return a window that allows the user to edit the text of the
     worksheet with the given filename.
     """
-    return g.notebook.html_plain_text_window(worksheet, g.username)
+    return g.notebook.html_plain_text_window(worksheet, g.username, request=request, site_name=g.site_name)
 
 ########################################################
 # Copy a worksheet
@@ -574,7 +574,7 @@ def worksheet_edit_published_page(worksheet):
 ########################################################
 @worksheet_command('share')
 def worksheet_share(worksheet):
-    return g.notebook.html_share(worksheet, g.username)
+    return g.notebook.html_share(worksheet, g.username, request=request, site_name=g.site_name)
 
 @worksheet_command('invite_collab')
 def worksheet_invite_collab(worksheet):
@@ -615,9 +615,11 @@ def worksheet_revisions(worksheet):
     if 'action' not in request.values:
         if 'rev' in request.values:
             return g.notebook.html_specific_revision(g.username, worksheet,
-                                                       request.values['rev'])
+                                                       request.values['rev'],
+                                                       request=request, site_name=g.site_name)
         else:
-            return g.notebook.html_worksheet_revision_list(g.username, worksheet)
+            return g.notebook.html_worksheet_revision_list(g.username, worksheet,
+            	                                              request=request,site_name=g.site_name)
     else:
         rev = request.values['rev']
         action = request.values['action']
@@ -748,7 +750,8 @@ def worksheet_datafile(worksheet):
         return current_app.message("Successfully deleted '%s'"%filename,
                                    cont=url_for_worksheet(worksheet)) #XXX: i18n
     else:
-        return g.notebook.html_download_or_delete_datafile(worksheet, g.username, filename)
+        return g.notebook.html_download_or_delete_datafile(worksheet, g.username,
+        	                                       filename,request=request, site_name=g.site_name)
 
 @worksheet_command('savedatafile')
 def worksheet_savedatafile(worksheet):
@@ -759,7 +762,8 @@ def worksheet_savedatafile(worksheet):
         if os.path.exists(dest):
             os.unlink(dest)
         open(dest, 'w').write(text_field)
-    return g.notebook.html_download_or_delete_datafile(worksheet, g.username, filename)
+    return g.notebook.html_download_or_delete_datafile(worksheet, g.username,
+    	                                         filename,request=request, site_name=g.site_name)
 
 
 @worksheet_command('link_datafile')
@@ -781,7 +785,7 @@ def worksheet_link_datafile(worksheet):
 
 @worksheet_command('upload_data')
 def worksheet_upload_data(worksheet):
-    return g.notebook.html_upload_data_window(worksheet, g.username)
+    return g.notebook.html_upload_data_window(worksheet, g.username, request=request, site_name=g.site_name)
 
 @worksheet_command('do_upload_data')
 def worksheet_do_upload_data(worksheet):
@@ -897,10 +901,12 @@ def worksheet_publish(worksheet):
                                             hostname,
                                             worksheet.published_version().filename())
             dtime = worksheet.published_version().date_edited()
-            return g.notebook.html_afterpublish_window(worksheet, g.username, addr, dtime)
+            return g.notebook.html_afterpublish_window(worksheet, g.username, addr,
+            	                                    dtime, request=request, site_name=g.site_name)
         # Page for when worksheet is not already published
         else:
-            return g.notebook.html_beforepublish_window(worksheet, g.username)
+            return g.notebook.html_beforepublish_window(worksheet, g.username,
+            	                                         request=request, site_name=g.site_name)
 
 ############################################
 # Ratings
@@ -996,7 +1002,7 @@ def worksheet_delete_all_output(worksheet):
 def worksheet_print(worksheet):
     #XXX: We might want to separate the printing template from the
     #regular html template.
-    return g.notebook.html(worksheet.filename(), do_print=True)
+    return g.notebook.html(worksheet.filename(), do_print=True, request=request, site_name=g.site_name )
 
 
 #######################################################
@@ -1055,7 +1061,7 @@ def worksheet_file(path):
     W.cell_list().pop()
 
     return g.notebook.html(worksheet_filename=W.filename(),
-                           username=g.username)
+                           username=g.username, request=request, site_name=g.site_name)
 
 
 ####################

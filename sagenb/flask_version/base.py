@@ -200,7 +200,9 @@ def main_css():
 def help():
     from sagenb.notebook.tutorial import notebook_help
     from sagenb.misc.misc import SAGE_VERSION
-    return render_template(os.path.join('html', 'docs.html'), username = g.username, notebook_help = notebook_help, sage_version=SAGE_VERSION)
+    return render_template(os.path.join('html', 'docs.html'), username = g.username,
+    	                   notebook_help = notebook_help, sage_version=SAGE_VERSION,
+    	                   site_name=g.site_name)
 
 ###########
 # History #
@@ -209,7 +211,8 @@ def help():
 @login_required
 def history():
     return render_template(os.path.join('html', 'history.html'), username = g.username,
-                           text = g.notebook.user_history_text(g.username), actions = False)
+                           text = g.notebook.user_history_text(g.username), actions = False,
+                           site_name=g.site_name)
 
 @base.route('/live_history')
 @login_required
@@ -422,6 +425,7 @@ def create_app(path_to_notebook, *args, **kwds):
     @app.before_request
     def set_notebook_object():
         g.notebook = notebook
+        g.site_name= site_name
 
     ####################################
     # create Babel translation manager #
@@ -469,7 +473,8 @@ def create_app(path_to_notebook, *args, **kwds):
                 ['.py','.c','.cc','.h','.hh','.pyx','.pxd']):
                 return render_template(os.path.join('html', 'source_code.html'),
                                        src_filename=path,
-                                       src=src, username = g.username)
+                                       src=src, username = g.username,
+                                       site_name=g.site_name)
             return src
         return idx.render_autoindex(path)
 

@@ -349,10 +349,12 @@ the "save" command), and get back to where you were quickly.
 #####################################
 
 from flask.ext.babel import lazy_gettext as _
+from flask import g
 
+site_name=g.site_name
 notebook_help = [
     (_('Find Help and Documentation'),
-     [(_('Get Started with Sage'), _('<a href="/doc/live/tutorial/index.html">Work through the tutorial</a> (if you have trouble with it, view the <a href="/doc/static/tutorial/index.html">static version</a>).')),
+     [(_('Get Started with Sage'), _('<a href="/'+site_name+'/doc/live/tutorial/index.html">Work through the tutorial</a> (if you have trouble with it, view the <a href="/'+site_name+'/doc/static/tutorial/index.html">static version</a>).')),
       (_('Help About'),
        _('Type ? immediately after the object or function and press tab or shift-enter (shift-enter overwrites output and saves to worksheet).')),
       (_('Source Code'),
@@ -360,7 +362,7 @@ notebook_help = [
       (_('Full Text Search of Docs and Source'),
        _('Search the SAGE documentation by typing <pre>search_doc("my query")</pre> in an input cell and press shift-enter.  Search the source code of SAGE by typing <pre>search_src("my query")</pre> and pressing shift-enter.  Arbitrary regular expressions are allowed as queries.')),
       (_('Live Documentation'),
-       _('Use <a href="/doc/live/index.html">live documentation</a> to try out the full Sage documentation "live". (Only new compute cells allowed, click the icon.)')),
+       _('Use <a href="/'+site_name+'/doc/live/index.html">live documentation</a> to try out the full Sage documentation "live". (Only new compute cells allowed, click the icon.)')),
       # ('More Help',
       #  'Type "help(sagenb.notebook.notebook)" for a detailed discussion of the architecture of the SAGE notebook and a tutorial (or see the SAGE reference manual).'),
       ]),
