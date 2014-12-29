@@ -270,10 +270,10 @@ class QuietSite(server.Site):
         pass
 
 # Log only errors, not every page hit
-#site = QuietSite(root)
+site = QuietSite(root)
 
 # To log every single page hit, uncomment the following line
-site = server.Site(root)
+#site = server.Site(root)
 
 from twisted.application import service, strports
 application = service.Application("Sage Notebook")
