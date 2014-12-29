@@ -1307,7 +1307,7 @@ class Notebook(object):
     ##########################################################
     # Revision history for a worksheet
     ##########################################################
-    def html_worksheet_revision_list(self, username, worksheet):
+    def html_worksheet_revision_list(self, username, worksheet, **kwds):
         r"""
         Return HTML for the revision list of a worksheet.
 
@@ -1316,6 +1316,8 @@ class Notebook(object):
         - ``username`` - a string
 
         - ``worksheet`` - an instance of Worksheet
+        
+        - ``kwds`` - additional things to pass to the template
 
         OUTPUT:
 
@@ -1329,7 +1331,7 @@ class Notebook(object):
             sage: W.body()
             u'\n\n{{{id=1|\n\n///\n}}}'
             sage: W.save_snapshot('admin')
-            sage: nb.html_worksheet_revision_list('admin', W)
+            sage: nb.html_worksheet_revision_list('admin', W, request=request)
             u'...Revision...Last Edited...ago...'
         """
         data = worksheet.snapshot_data()  # pairs ('how long ago', key)
@@ -1337,10 +1339,10 @@ class Notebook(object):
         return template(os.path.join("html", "notebook", "worksheet_revision_list.html"),
                         data = data, worksheet = worksheet,
                         notebook = self,
-                        username = username)
+                        username = username, **kwds)
 
 
-    def html_specific_revision(self, username, ws, rev):
+    def html_specific_revision(self, username, ws, rev, **kwds):
         r"""
         Return the HTML for a specific revision of a worksheet.
 
@@ -1351,6 +1353,8 @@ class Notebook(object):
         - ``ws`` - an instance of Worksheet
 
         - ``rev`` - a string containing the key of the revision
+        
+        - ``kwds`` - additional things to pass to the template
 
         OUTPUT:
 
@@ -1381,9 +1385,9 @@ class Notebook(object):
                                      "specific_revision.html"),
                         worksheet = W, # the revision, not the original!
                         username = username, rev = rev, prev_rev = prev_rev,
-                        next_rev = next_rev, time_ago = time_ago)
+                        next_rev = next_rev, time_ago = time_ago, **kwds)
 
-    def html_share(self, worksheet, username):
+    def html_share(self, worksheet, username, **kwds):
         r"""
         Return the HTML for the "share" page of a worksheet.
 
@@ -1392,6 +1396,8 @@ class Notebook(object):
         - ``username`` - a string
 
         - ``worksheet`` - an instance of Worksheet
+        
+        - ``kwds`` - additional things to pass to the template
 
         OUTPUT:
 
@@ -1402,15 +1408,15 @@ class Notebook(object):
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
             sage: W = nb.create_new_worksheet('Test', 'admin')
-            sage: nb.html_share(W, 'admin')
+            sage: nb.html_share(W, 'admin', request=request)
             u'...currently shared...add or remove collaborators...'
         """
         return template(os.path.join("html", "notebook", "worksheet_share.html"),
                         worksheet = worksheet,
                         notebook = self,
-                        username = username)
+                        username = username, **kwds)
 
-    def html_download_or_delete_datafile(self, ws, username, filename):
+    def html_download_or_delete_datafile(self, ws, username, filename, **kwds):
         r"""
         Return the HTML for the download or delete datafile page.
 
@@ -1421,6 +1427,8 @@ class Notebook(object):
         - ``ws`` - an instance of Worksheet
 
         - ``filename`` - a string; the name of the file
+        
+        - ``kwds`` - additional things to pass to the template
 
         OUTPUT:
 
@@ -1431,7 +1439,7 @@ class Notebook(object):
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
             sage: W = nb.create_new_worksheet('Test', 'admin')
-            sage: nb.html_download_or_delete_datafile(W, 'admin', 'bar')
+            sage: nb.html_download_or_delete_datafile(W, 'admin', 'bar', request=request)
             u'...Data file: bar...DATA is a special variable...uploaded...'
         """
         ext = os.path.splitext(filename)[1].lower()
@@ -1450,7 +1458,7 @@ class Notebook(object):
                         filename_ = filename,
                         file_is_image = file_is_image,
                         file_is_text = file_is_text,
-                        text_file_content = text_file_content)
+                        text_file_content = text_file_content, **kwds)
 
 
     ##########################################################
@@ -1537,7 +1545,7 @@ class Notebook(object):
     ###########################################################
     # HTML -- generate most html related to the whole notebook page
     ###########################################################
-    def html_plain_text_window(self, worksheet, username):
+    def html_plain_text_window(self, worksheet, username, **kwds):
         r"""
         Return HTML for the window that displays a plain text version
         of the worksheet.
@@ -1547,6 +1555,8 @@ class Notebook(object):
         -  ``worksheet`` - a Worksheet instance
 
         -  ``username`` - a string
+        
+        - ``kwds`` - things to pass on to the template
 
         OUTPUT:
 
@@ -1557,7 +1567,7 @@ class Notebook(object):
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
             sage: W = nb.create_new_worksheet('Test', 'admin')
-            sage: nb.html_plain_text_window(W, 'admin')
+            sage: nb.html_plain_text_window(W, 'admin', request = request)
             u'...pre class="plaintext"...cell_intext...textfield...'
         """
         plain_text = worksheet.plain_text(prompts=True, banner=False)
@@ -1567,9 +1577,10 @@ class Notebook(object):
                         worksheet = worksheet,
                         notebook = self,
                         username = username, plain_text = plain_text,
-                        MATHJAX = MATHJAX, JEDITABLE_TINYMCE = JEDITABLE_TINYMCE)
+                        MATHJAX = MATHJAX, JEDITABLE_TINYMCE = JEDITABLE_TINYMCE,
+                        **kwds)
 
-    def html_edit_window(self, worksheet, username):
+    def html_edit_window(self, worksheet, username, **kwds):
         r"""
         Return HTML for a window for editing ``worksheet``.
 
@@ -1578,6 +1589,8 @@ class Notebook(object):
         - ``username`` - a string containing the username
 
         - ``worksheet`` - a Worksheet instance
+        
+        - ``kwds`` - additional things to pass to the template
 
         OUTPUT:
 
@@ -1587,7 +1600,7 @@ class Notebook(object):
 
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
-            sage: W = nb.create_new_worksheet('Test', 'admin')
+            sage: W = nb.create_new_worksheet('Test', 'admin', request=request)
             sage: nb.html_edit_window(W, 'admin')
             u'...textarea class="plaintextedit"...{{{id=1|...//...}}}...'
         """
@@ -1595,9 +1608,9 @@ class Notebook(object):
         return template(os.path.join("html", "notebook", "edit_window.html"),
                         worksheet = worksheet,
                         notebook = self,
-                        username = username)
+                        username = username, **kwds)
 
-    def html_beforepublish_window(self, worksheet, username):
+    def html_beforepublish_window(self, worksheet, username, **kwds):
         r"""
         Return HTML for the warning and decision page displayed prior
         to publishing the given worksheet.
@@ -1607,6 +1620,8 @@ class Notebook(object):
         - ``worksheet`` - an instance of Worksheet
 
         - ``username`` - a string
+        
+        - ``kwds`` - additional information to pass to the templating engine
 
         OUTPUT:
 
@@ -1617,7 +1632,7 @@ class Notebook(object):
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
             sage: W = nb.create_new_worksheet('Test', 'admin')
-            sage: nb.html_beforepublish_window(W, 'admin')
+            sage: nb.html_beforepublish_window(W, 'admin', request=request)
             u'...want to publish this worksheet?...re-publish when changes...'
         """
         msg = """You can publish your worksheet to the Internet, where anyone will be able to access and view it online.
@@ -1633,9 +1648,9 @@ class Notebook(object):
         return template(os.path.join("html", "notebook", "beforepublish_window.html"),
                         worksheet = worksheet,
                         notebook = self,
-                        username = username)
+                        username = username, **kwds)
 
-    def html_afterpublish_window(self, worksheet, username, url, dtime):
+    def html_afterpublish_window(self, worksheet, username, url, dtime, **kwds):
         r"""
         Return HTML for a given worksheet's post-publication page.
 
@@ -1650,6 +1665,8 @@ class Notebook(object):
 
         - ``dtime`` - an instance of time.struct_time representing the
           publishing time
+          
+        - ``kwds`` - additional parameters to pass to templates  
 
         OUTPUT:
 
@@ -1661,9 +1678,9 @@ class Notebook(object):
         return template(os.path.join("html", "notebook", "afterpublish_window.html"),
                         worksheet = worksheet,
                         notebook = self,
-                        username = username, url = url, time = time)
+                        username = username, url = url, time = time, **kwds)
 
-    def html_upload_data_window(self, ws, username):
+    def html_upload_data_window(self, ws, username, **kwds):
         r"""
         Return HTML for the "Upload Data" window.
 
@@ -1672,6 +1689,7 @@ class Notebook(object):
         - ``worksheet`` - an instance of Worksheet
 
         - ``username`` - a string
+        - ``kwds`` - additional things to pass to templates
 
         OUTPUT:
 
@@ -1682,11 +1700,11 @@ class Notebook(object):
             sage: nb = sagenb.notebook.notebook.Notebook(tmp_dir(ext='.sagenb'))
             sage: nb.create_default_users('password')
             sage: W = nb.create_new_worksheet('Test', 'admin')
-            sage: nb.html_upload_data_window(W, 'admin')
+            sage: nb.html_upload_data_window(W, 'admin', request=request)
             u'...Upload or Create Data File...Browse...url...name of a new...'
         """
         return template(os.path.join("html", "notebook", "upload_data_window.html"),
-                        worksheet = ws, username = username)
+                        worksheet = ws, username = username, **kwds)
 
     def html(self, worksheet_filename=None, username='guest', admin=False, 
              do_print=False, **kwds):

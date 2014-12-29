@@ -25,6 +25,7 @@ from sagenb.misc.misc import (word_wrap, strip_string_literals,
                               encoded_str)
 from interact import (INTERACT_RESTART, INTERACT_UPDATE_PREFIX,
                       INTERACT_TEXT, INTERACT_HTML)
+from flask import g #we need the site name to build paths
 
 # Maximum number of characters allowed in output.  This is needed
 # avoid overloading web browser.  For example, it should be possible
@@ -2232,7 +2233,7 @@ class Cell(Cell_generic):
         try:
             return self._url_to_self
         except AttributeError:
-            self._url_to_self = '/home/%s/cells/%s' % (
+            self._url_to_self = '/'+g.site_name+'/home/%s/cells/%s' % (
                 self.worksheet_filename(), self.id())
             return self._url_to_self
 
@@ -2253,7 +2254,7 @@ class Cell(Cell_generic):
             sage: C.url_to_worksheet()
             '/home/sage/0'
         """
-        return '/home/{0}'.format(self.worksheet_filename())
+        return '/'+g.site_name+'/home/{0}'.format(self.worksheet_filename())
 
     def files(self):
         """

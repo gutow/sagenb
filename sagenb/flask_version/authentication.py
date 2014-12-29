@@ -26,7 +26,8 @@ def login(template_dict={}):
                           'sage_version': SAGE_VERSION,
                           'openid': g.notebook.conf()['openid'],
                           'username_error': False,
-                          'password_error': False})
+                          'password_error': False,
+                          'site_name':g.site_name})
 
     if request.method == 'POST':
         username = request.form['email']

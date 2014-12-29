@@ -5,7 +5,6 @@ import urllib, urlparse
 from flask import Module, url_for, render_template, request, session, redirect, g, current_app
 from decorators import login_required, guest_or_login_required, with_lock
 from flask.ext.babel import Babel, gettext, ngettext, lazy_gettext
-#from sagenb.flask_version.base import get_proxied_route
 _ = gettext
 
 worksheet_listing = Module('sagenb.flask_version.worksheet_listing')
@@ -24,6 +23,8 @@ def render_worksheet_list(args, pub, username):
 
     -  ``username`` - the user whose worksheets we are
        listing
+       
+    - ``kwds`` - additional info for template rendering
 
     OUTPUT:
 
@@ -57,6 +58,7 @@ def render_worksheet_list(args, pub, username):
 
     accounts = g.notebook.user_manager().get_accounts()
     sage_version = SAGE_VERSION
+    site_name = g.site_name
     return render_template('html/worksheet_listing.html', **locals())
 
 @worksheet_listing.route('/home/<username>/')
@@ -159,10 +161,10 @@ def public_worksheet(id):
         owner = worksheet.owner()
         worksheet.set_owner('pub')
         s = g.notebook.html(worksheet_filename=worksheet.filename(),
-                            username=g.username)
+                            username=g.username, request=request, site_name=g.site_name)
         worksheet.set_owner(owner)
     else:
-        s = g.notebook.html(worksheet_filename=filename, username = g.username)
+        s = g.notebook.html(worksheet_filename=filename, username = g.username, request=request, site_name=g.site_name)
     return s
 
 @worksheet_listing.route('/home/pub/<id>/download/<path:title>')
@@ -240,7 +242,8 @@ def upload():
     if g.notebook.readonly_user(g.username):
         return current_app.message(_("Account is in read-only mode"), cont=url_for('home', username=g.username))
     return render_template(os.path.join('html', 'upload.html'),
-                           username=g.username, sage_version=SAGE_VERSION)
+                           username=g.username, sage_version=SAGE_VERSION, request=request, 
+                           site_name=g.site_name)
 
 class RetrieveError(Exception):
     """

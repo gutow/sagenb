@@ -30,6 +30,8 @@ INPUT:
 <script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/form/jquery.form.min.js"></script>
 <script type="text/javascript" src="{{request.url_root}}javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
 <script type="text/javascript">
+    var url_root = "{{request.url_root}}";
+    var site_name = "{{site_name}}"
     var worksheet_filenames = {{ worksheet_filenames|tojson|safe }}; 
 </script>
 <script type="text/javascript" src="{{request.url_root}}javascript/sage/js/notebook_lib.js"></script>
