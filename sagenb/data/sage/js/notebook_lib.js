@@ -4629,7 +4629,7 @@ function help() {
     /*
     Popup the help window.
     */
-    alert("opening: "+url_root+"help");
+    //alert("opening: "+url_root+"help");
     window.open(url_root+"help", "",
                 "menubar=1,location=1,scrollbars=1,width=800,height=650,toolbar=1,  resizable=1");
 }
