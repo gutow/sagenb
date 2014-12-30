@@ -87,7 +87,7 @@ def save_notebook(notebook):
             kw['open_page'] = "from sagenb.misc.misc import open_page; open_page('%(hostname)s', %(port)s, %(secure)s, %(start_path)s)" % kw
 
         else:
-            kw['open_page'] = '/'
+            kw['open_page'] = ''
 
 
     def profile_file(self, profile):
