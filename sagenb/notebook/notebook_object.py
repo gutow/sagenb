@@ -54,6 +54,15 @@ class NotebookObject:
           Remove this when you want to generate new keys, for example if an
           older version of Sage has generated keys that are too short for
           current browsers.
+          
+        - ``site_name`` -- string (default: ``sage``) This string is the prefix
+          to all the paths on the site.  This allows for clean proxying of
+          multiple sage servers behind one domain name 
+          (e.g. www.domain.org/sage0, www.domain.org/sage1, etc.).  Do not worry
+          about this unless you are proxying sage behind an industrial server
+          such as Apache2 or nginx.  The notebook server now handles virtual
+          host monster syntax, so you can tell the sage server
+          what absolute paths to insert in pages (see examples below).
 
         - ``reset`` -- boolean (default: ``False``) if True allows you
           to set the admin password.  Use this if you forget your
@@ -96,7 +105,7 @@ class NotebookObject:
 
           .. warning::
 
-              If you are running a server for others to log into, set `automatic_login=False`.
+              If you are running a server for others to log into, set ``automatic_login=False``.
               Otherwise, all of the worksheets on the entire server will be loaded when the server
               automatically logs into the admin account.
 
@@ -125,8 +134,8 @@ class NotebookObject:
 
     .. note::
 
-       The ``require_login`` option has been removed.  Use `automatic_login` to control
-       automatic logins instead---`automatic_login=False` corresponds to `require_login=True`.
+       The ``require_login`` option has been removed.  Use ``automatic_login`` to control
+       automatic logins instead---``automatic_login=False`` corresponds to ``require_login=True``.
 
     EXAMPLES:
 
@@ -168,6 +177,25 @@ class NotebookObject:
        user email addresses and account information (passwords are
        stored hashed, so fewer worries there). You will need to use
        the ``directory`` option to accomplish this.
+       
+    4. Set up a server proxied behind an industrial server such as Apache2 or
+       nginx.
+       
+       Server named ``sage3`` running on port ``8082``.  Launch with the command::
+       
+           notebook(interface='', port=8082, site_name='sage3',
+           automatic_login=False)
+                    
+       For an Apache2 server rewrite proxying in the configuration file
+       will look something like the following::
+           
+           RewriteEngine on
+            RewriteRule ^/sage3(.*) http://localhost:8082/virtualhostbase/http/localhost/sage3$1 [P]
+       
+       nginx example::
+       
+           TODO
+       
 
     INPUT:  (more advanced)
 
