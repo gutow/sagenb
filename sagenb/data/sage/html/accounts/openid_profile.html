@@ -7,7 +7,7 @@
 {% block main %}
 <div> 
     <h2>Create your Sage profile </h2>
-    <form method="POST" action="/openid_profiles">
+    <form method="POST" action="{{request.url_root}}openid_profiles">
         <ol>
             <li>
                 <h2>Create a username</h2>

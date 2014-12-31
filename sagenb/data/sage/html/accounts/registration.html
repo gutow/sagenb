@@ -10,7 +10,7 @@
     {% if error %}
     <h2 class="error_found">Error{{ error[1:] }}found</h2>
     {% endif %}
-    <form method="POST" action="/register" id="registration-form">
+    <form method="POST" action="{{request.url_root}}register" id="registration-form">
         <ol>
             <li>
                 <h2>{{ gettext('Create a username') }}</h2>
@@ -80,7 +80,7 @@
             {% endif %}
         </ol>
         <button type="submit" tabindex="100" id="create-account-button">{{ gettext('Create account') }}</button>
-        <a href="/"><button tabindex="101">{{ gettext('Cancel') }}</button></a>
+        <a href="{{request.url_root}}"><button tabindex="101">{{ gettext('Cancel') }}</button></a>
     </form>
 </div> 
 {% endblock %}
