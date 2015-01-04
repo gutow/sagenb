@@ -1725,7 +1725,7 @@ function close_callback(status, response) {
         alert(response);
         return;
     }
-    window.location.replace('../');
+    window.location.replace(url_root+'home/'+user_name);
 }
 
 
