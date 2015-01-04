@@ -4,10 +4,10 @@
 {% block page_id %}account-settings-page{% endblock %}
 
 {% block settings_main %}
-<form method="post" action="/settings" id="account-settings-form">
+<form method="post" action="{{request.url_root}}settings" id="account-settings-form">
     <div class="buttons buttons-top">
         <button type="submit">{{ gettext('Save') }}</button>
-        <a href="/"><button>{{ gettext('Cancel') }}</button></a>
+        <a href="{{request.url_root}}settings"><input type="button" value="{{ gettext('Cancel') }}"/></a>
     </div>
     <div class="section">
         <h2>{{ gettext('Change Auto-Save Interval') }}</h2>
@@ -64,7 +64,7 @@
     
     <div class="buttons">
         <button type="submit">{{ gettext('Save') }}</button>
-        <a href="/"><button>{{ gettext('Cancel') }}</button></a>
+        <a href="{{request.url_root}}settings"><input type="button" value="{{ gettext('Cancel') }}"/></a>
     </div>
 </form>
 {% endblock %}
