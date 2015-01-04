@@ -21,7 +21,7 @@ INPUT:
     {% set url           = original_worksheet.worksheet_command('') %}
 {% elif notebook.user_manager().user_is_guest(username) %}
     {% set edit_text = gettext('Log in to edit a copy.') %}
-    {% set url       = "/" %}
+    {% set url       = request.url_root %}
 {% else %}
     {% set edit_text = gettext('Edit a copy.') %}
     {% set url       = "edit_published_page" %}
@@ -56,7 +56,7 @@ INPUT:
         {% endif %}
     </li>
     {% endif %}
-    <li><a href="/pub/">{{ gettext('Other published documents...') }}</a></li>
+    <li><a href="{{request.url_root}}pub/">{{ gettext('Other published documents...') }}</a></li>
 </ul>
 <hr class="usercontrol" />
 <h1 class="title">{{ worksheet.name() }}</h1>

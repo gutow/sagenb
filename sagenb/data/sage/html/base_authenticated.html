@@ -4,7 +4,7 @@
     <ul>
         <li class="username">{{ username }}</li>
         {% if username == 'guest' %}
-        <li><a title="{{ gettext('Please log in to the Sage notebook') }}" href="">{{ gettext('Log in') }}</a></li>
+        <li><a title="{{ gettext('Please log in to the Sage notebook') }}" href="{{request.url_root}}">{{ gettext('Log in') }}</a></li>
         {% else %}
         <li><a id="toggle-link" title="{{ gettext('Toggle the top bar') }}" onClick="$('#worksheet-bar').toggle()">{{ gettext('Toggle') }}</a></li>
         <li><a title="{{ gettext('Back to your personal worksheet list') }}" href="{{request.url_root|default('')}}home/{{ username }}">{{ gettext('Home') }}</a></li>

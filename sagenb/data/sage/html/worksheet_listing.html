@@ -38,6 +38,10 @@ INPUT:
 <script type="text/javascript" src="{{request.url_root}}javascript/dynamic/notebook_dynamic.js"></script>
 {% else %}
 <script type="text/javascript" src="{{request.url_root}}javascript/sage/js/ws_list.js"></script>
+<script type="text/javascript">
+    var url_root = "{{request.url_root}}";
+    var site_name = "{{site_name}}"
+</script>
 {% endif %}
 {% endblock %}
 
