@@ -4,7 +4,7 @@
 
 {% block main %}
 <h1>{{ gettext('Add New User') }}</h1>
-<form method="POST" action="/adduser">
+<form method="POST" action="{{request.url_root}}adduser">
   <ol>
     <li><h2>{{ gettext('Pick a username') }}</h2>
       <p>{{ gettext('The username must start with a letter and be between 4 and 32 characters long. It can only consist of letters, numbers, underscores, and one dot (.).') }}</p>

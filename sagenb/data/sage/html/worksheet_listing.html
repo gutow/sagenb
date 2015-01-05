@@ -139,7 +139,10 @@ INPUT:
         {% elif typ == 'active' %}
         <tr>
             <td colspan="5" id="welcome-message">
-                {{ gettext('Welcome to Sage! You can <a href="{{request.url_root}}new_worksheet">create a new worksheet</a>, view <a href="{{request.url_root}}pub/">published worksheets</a>, or read the <a href="{{request.url_root}}help" target="_new">documentation</a>.') }}
+                {{ gettext('Welcome to Sage! You can <a href="%(new_worksheet_url)s">create a new worksheet</a>, 
+                    view <a href="%(published)s">published worksheets</a>, or read 
+                    the <a href="%(help)s" target="_new">documentation</a>.
+                    '%{'new_worksheet_url':request.url_root+'new_worksheet','published':request.url_root+'pub/', 'help':request.url_root+'help'})  }}
             </td>
         </tr>
         {% endif %}
