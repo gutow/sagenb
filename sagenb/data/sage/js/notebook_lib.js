@@ -1859,7 +1859,7 @@ function delete_worksheet(name) {
     INPUT:
       name -- string
     */
-    async_request('/'+site_name+'/send_to_trash', delete_worksheet_callback, {
+    async_request('/send_to_trash', delete_worksheet_callback, {
         filename: name
     });
 }
