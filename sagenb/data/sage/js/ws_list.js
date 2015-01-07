@@ -184,7 +184,7 @@ function history_window() {
       Display the history popup window, which displays the last few hundred
       commands typed into any worksheet.
     */
-    window.open('/history', '', 'menubar=1,scrollbars=1,width=800,height=600, toolbar=1,resizable=1');
+    window.open('history', '', 'menubar=1,scrollbars=1,width=800,height=600, toolbar=1,resizable=1');
 }
 
 function delete_worksheet_callback(status, response_text) {
@@ -193,7 +193,7 @@ function delete_worksheet_callback(status, response_text) {
       or if the delete worksheet function failed display an error.
     */
     if (status === 'success') {
-        window.location.replace('/?typ=trash');
+        window.location.replace(url_root+'?typ=trash');
     } else {
         alert(translations['Possible failure deleting worksheet.']);
     }
@@ -207,13 +207,6 @@ function delete_worksheet(name) {
     */
     async_request('/send_to_trash', delete_worksheet_callback,
                   {filename: name});
-}
-
-function history_window() {
-    /*
-      Popup the history window.
-    */
-    window.open('/history', '', 'menubar=1,scrollbars=1,width=800,height=600,toolbar=1,resizable=1');
 }
 
 function help() {
@@ -238,6 +231,6 @@ function empty_trash() {
       empty trash folder is displayed.
     */
     if (confirm(translations['Emptying the trash will permanently delete all items in the trash. Continue?'])) {
-        window.location.replace('/emptytrash');
+        window.location.replace(url_root+'emptytrash');
     }
 }

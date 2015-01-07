@@ -1872,7 +1872,7 @@ function delete_worksheet_callback(status, response) {
     error.
     */
     if (status === "success") {
-        window.location.replace("/?typ=trash");
+        window.location.replace(url_root+"?typ=trash");
     } else {
         alert(translations['Possible failure deleting worksheet.']);
     }
