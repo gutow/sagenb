@@ -308,9 +308,9 @@ reactor.addSystemEventTrigger('before', 'shutdown', partial(save_notebook2, flas
                         old_interface = old_interface or 'localhost'
                         if kw['upload']:
                             import urllib
-                            startpath = '/upload_worksheet?url=file://%s' % (urllib.quote(kw['upload']))
+                            startpath = '/%s/upload_worksheet?url=file://%s' % (kw['site_name'],urllib.quote(kw['upload']))
                         else:
-                            startpath = '/'
+                            startpath = '/%(site_name)s/' %kw
 
                         print 'Opening web browser at http%s://%s:%s%s ...' % (
                             's' if old_secure else '', old_interface, old_port, startpath)
@@ -631,7 +631,7 @@ def notebook_run(self,
 
     if not quiet:
         print_open_msg('localhost' if not interface else interface,
-        port, secure=secure)
+        port, secure=secure,path='/'+site_name+'/')
     if secure and not quiet:
         print "There is an admin account.  If you do not remember the password,"
         print "quit the notebook and type notebook(reset=True)."
