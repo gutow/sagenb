@@ -20,7 +20,7 @@
       <a href="{{request.url_root}}notebooksettings"><input type="button" value="{{ gettext('Cancel') }}"/></a>
   </div>
   {%- if auto_table %}
-  {{ auto_table }}
+  {{ auto_table | safe }}
   {%- endif %}
   <div class="buttons">
       <button type="submit">{{ gettext('Save') }}</button>
