@@ -17,9 +17,10 @@ AUTHORS:
 
 import jinja2
 
-import os, re, sys
+import os, re, sys, json
 
-from sagenb.misc.misc import SAGE_VERSION, DATA
+from sagenb.misc.misc import SAGE_VERSION, DATA, unicode_str
+from sagenb.notebook.cell import number_of_rows
 from flask.ext.babel import gettext, ngettext, lazy_gettext
 from flask import current_app as app
 
@@ -30,6 +31,7 @@ if os.environ.has_key('SAGENB_TEMPLATE_PATH'):
     TEMPLATE_PATH = os.environ['SAGENB_TEMPLATE_PATH']
 else:
     TEMPLATE_PATH = os.path.join(DATA, 'sage')
+env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_PATH))
 
 css_illegal_re = re.compile(r'[^-A-Za-z_0-9]')
 
@@ -95,6 +97,13 @@ def clean_name(name):
     """
     return ''.join([x if x.isalnum() else '_' for x in name])
 
+env.filters['css_escape'] = css_escape
+env.filters['number_of_rows'] = number_of_rows
+env.filters['clean_name'] = clean_name
+env.filters['prettify_time_ago'] = prettify_time_ago
+env.filters['max'] = max
+env.filters['repr_str'] = lambda x: repr(unicode_str(x))[1:]
+env.filters['tojson'] = json.dumps
 
 def template(filename, **user_context):
     """
@@ -135,7 +144,7 @@ def template(filename, **user_context):
                        'JEDITABLE_TINYMCE': JEDITABLE_TINYMCE,
                        'conf': notebook.conf() if notebook else None}
     try:
-        tmpl = app.jinja_env.get_template(filename)
+        tmpl = env.get_template(filename)
     except jinja2.exceptions.TemplateNotFound:
         return "Notebook Bug -- missing template %s"%filename
 

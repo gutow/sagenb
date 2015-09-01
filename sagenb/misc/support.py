@@ -492,13 +492,13 @@ def cython_import_all(filename, globals, verbose=False, compile_message=False,
 # Preparser
 ###################################################
 try:
-    from sage.repl.preparser import preparse, preparse_file
+    from sage.repl.preparse import preparse, preparse_file
     def do_preparse():
         """
         Return True if the preparser is set to on, and False otherwise.
         """
         import sage.repl.interpreter
-        return sage.repl.interpreter.do_preparse
+        return sage.repl.interpreter._do_preparse
 except ImportError:
     def preparse(line, *args, **kwds):
         return line
