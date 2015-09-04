@@ -15,11 +15,8 @@ except ImportError:
 SRC = os.path.join(SAGE_SRC, 'sage')
 from flask.ext.openid import OpenID
 from flask.ext.babel import Babel, gettext, ngettext, lazy_gettext, get_locale
-from sagenb.misc.misc import SAGENB_ROOT, DATA, SAGE_DOC, translations_path, N_, nN_, unicode_str
-from json import dumps
-from sagenb.notebook.cell import number_of_rows
-from sagenb.notebook.template import (css_escape, clean_name,
-                                      prettify_time_ago, TEMPLATE_PATH)
+from sagenb.misc.misc import SAGENB_ROOT, DATA, SAGE_DOC, translations_path, N_, nN_
+
 oid = OpenID()
 
 class SageNBFlask(Flask):
@@ -58,17 +55,11 @@ class SageNBFlask(Flask):
         self.add_static_path('/doc/static', DOC)
         #self.add_static_path('/doc/static/reference', os.path.join(SAGE_DOC, 'reference'))
 
-        # Template globals
-        self.add_template_global(url_for)
-        # Template filters
-        self.add_template_filter(css_escape)
-        self.add_template_filter(number_of_rows)
-        self.add_template_filter(clean_name)
-        self.add_template_filter(prettify_time_ago)
-        self.add_template_filter(max)
-        self.add_template_filter(lambda x: repr(unicode_str(x))[1:],
-                                 name='repr_str')
-        self.add_template_filter(dumps, 'tojson')
+    def create_jinja_environment(self):
+        from sagenb.notebook.template import env
+        env.globals.update(url_for=url_for)
+        return env
+
  
     def site_name(self):
     	return (kwds['site_name'])
@@ -427,8 +418,7 @@ def create_app(path_to_notebook, *args, **kwds):
     ##############
     # Create app #
     ##############
-    app = SageNBFlask('flask_version', startup_token=startup_token,
-                      template_folder=TEMPLATE_PATH)
+    app = SageNBFlask('flask_version', startup_token=startup_token)
     app.secret_key = os.urandom(24)
     oid.init_app(app)
     app.debug = True
