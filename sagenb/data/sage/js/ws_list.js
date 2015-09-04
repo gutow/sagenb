@@ -148,35 +148,35 @@ function delete_button() {
       button is pressed.  Each worksheet whose box is checked gets sent
       to the trash.
     */
-    worksheet_list_button('/send_to_trash');
+    worksheet_list_button('/'+site_name+'/send_to_trash');
 }
 
 function make_active_button() {
     /*
       Sends each checked worksheet to the active worksheets folder.
     */
-    worksheet_list_button('/send_to_active');
+    worksheet_list_button('/'+site_name+'/send_to_active');
 }
 
 function archive_button() {
     /*
       Sends each checked worksheet to the archived worksheets folder.
     */
-    worksheet_list_button('/send_to_archive');
+    worksheet_list_button('/'+site_name+'/send_to_archive');
 }
 
 function stop_worksheets_button() {
     /*
       Saves and then quits sage process for each checked worksheet.
     */
-    worksheet_list_button('/send_to_stop');
+    worksheet_list_button('/'+site_name+'/send_to_stop');
 }
 
 function download_worksheets_button() {
     /*
       Downloads the set of checked worksheets as a zip file.
     */
-    window.location.replace('/download_worksheets?filenames=' + checked_worksheet_filenames() + '&sep=' + SEP);
+    window.location.replace('/'+site_name+'/download_worksheets?filenames=' + checked_worksheet_filenames() + '&sep=' + SEP);
 }
 
 function history_window() {
@@ -205,7 +205,7 @@ function delete_worksheet(name) {
       INPUT:
       name -- string
     */
-    async_request('/send_to_trash', delete_worksheet_callback,
+    async_request('/'+site_name+'/send_to_trash', delete_worksheet_callback,
                   {filename: name});
 }
 

@@ -80,7 +80,7 @@
             {% endif %}
         </ol>
         <button type="submit" tabindex="100" id="create-account-button">{{ gettext('Create account') }}</button>
-        <a href="{{request.url_root}}"><button tabindex="101">{{ gettext('Cancel') }}</button></a>
     </form>
+     <a href="{{request.url_root}}"><button id="cancel-registration-button">{{ gettext('Cancel') }}</button></a>
 </div> 
 {% endblock %}

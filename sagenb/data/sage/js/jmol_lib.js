@@ -38,9 +38,9 @@ SageJmolManager.prototype.default_info = function() {
         deferUncover: true,                 // wait to uncover applet until script completed
         //The paths below assume your server is set up with standard JSmol directory.  If not
         //they will need modification for the page to work.
-        jarPath: "/sage/jsmol/java", //path to applet .jar files on server.
-        j2sPath: "/sage/jsmol/j2s",//path to javascript version.
-        makeLiveImg:"/sage/jsmol/j2s/img/play_make_live.jpg",  //path to activate 3-D image.
+        jarPath:"/"+ site_name+"/jsmol/java", //path to applet .jar files on server.
+        j2sPath: "/"+site_name+"/jsmol/j2s",//path to javascript version.
+        makeLiveImg: "/"+site_name+"/jsmol/j2s/img/play_make_live.jpg",  //path to activate 3-D image.
         jarFile: "JmolAppletSigned0.jar",
         isSigned: true,
         //disableJ2SLoadMonitor: true,
@@ -48,7 +48,7 @@ SageJmolManager.prototype.default_info = function() {
         script: "",
         z: 5,
         zIndexBase: 5,
-        menuFile: "/sage/java/jmol/appletweb/SageMenu.mnu", //special sagemenu
+        menuFile: "/"+site_name+"/java/jmol/appletweb/SageMenu.mnu", //special sagemenu
         //platformSpeed: 6, does not work have to do it in the ready function
         //or set to 7 or 8 for additional rotation graphics capabilities
     };

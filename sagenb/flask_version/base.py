@@ -55,14 +55,15 @@ class SageNBFlask(Flask):
         self.add_static_path('/doc/static', DOC)
         #self.add_static_path('/doc/static/reference', os.path.join(SAGE_DOC, 'reference'))
 
-    def site_name(self):
-    	return (kwds['site_name'])
-    	
     def create_jinja_environment(self):
         from sagenb.notebook.template import env
         env.globals.update(url_for=url_for)
         return env
 
+ 
+    def site_name(self):
+    	return (kwds['site_name'])
+    	
     def static_view_func(self, root_path, filename):
         from flask.helpers import send_from_directory
         return send_from_directory(root_path, filename)
@@ -476,8 +477,7 @@ def create_app(path_to_notebook, *args, **kwds):
         from sagenb.notebook.notification import logger
         logger.exception(error)
         return app.message(
-            gettext('''500: Internal server error.
-            An e-mail has been sent to the administrator(s).'''),
+            gettext('''500: Internal server error.'''),
             username=getattr(g, 'username', 'guest')), 500
 
     #autoindex v0.3 doesnt seem to work with modules

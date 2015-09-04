@@ -762,6 +762,8 @@ span.pingdown { font-family: 'Arial', 'Helvetica', sans-serif; font-size: 15px; 
 .accounts-page form div { margin-bottom: 1em; }
 /* line 34, ../../../../sass/src/_accounts.scss */
 .accounts-page form a { text-decoration: none; }
+/* line?, ../../../../sass/src/_accounts.scss */
+.accounts-page  #cancel-registration-button {position:relative; bottom:25px; left:150px;}
 
 /* line 2, ../../../../sass/src/_login.scss */
 #login-page h2 { font-size: 1.5em; margin-bottom: 0.375em; }

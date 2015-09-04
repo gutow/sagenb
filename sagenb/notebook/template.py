@@ -22,6 +22,7 @@ import os, re, sys, json
 from sagenb.misc.misc import SAGE_VERSION, DATA, unicode_str
 from sagenb.notebook.cell import number_of_rows
 from flask.ext.babel import gettext, ngettext, lazy_gettext
+from flask import current_app as app
 
 if os.environ.has_key('SAGENB_TEMPLATE_PATH'):
     if not os.path.isdir(os.environ['SAGENB_TEMPLATE_PATH']):
